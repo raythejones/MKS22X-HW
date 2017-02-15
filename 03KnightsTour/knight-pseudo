@@ -1,0 +1,11 @@
+solveH(row, col, id){
+if(done()) return true;
+if(isGood(row, col)){
+markCurrentSquare
+for{
+try all moves
+}
+if fails, unmark square
+}
+return false
+}
