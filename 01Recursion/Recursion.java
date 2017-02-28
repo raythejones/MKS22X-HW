@@ -11,6 +11,9 @@ public class Recursion{
 	    throw new IllegalArgumentException();
 	}
 
+	if(n == 0){
+	    return 0.0;
+	}
 	result = makeGuess(n, 1);
 	return result;
 	
@@ -35,16 +38,6 @@ public class Recursion{
     
     
     public static void main(String[]args){
-
-	System.out.println(sqrt(100));
-	System.out.println(sqrt(16));
-	System.out.println(sqrt(169));
-	System.out.println(sqrt(2));
-	System.out.println(sqrt(625));
-	System.out.println(sqrt(3));
-	System.out.println(;
-
-
 
     }
 
