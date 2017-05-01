@@ -1,249 +1,233 @@
 import java.util.*;
-import java.io.*;
 
-public class MyLinkedList {
+public class MyLinkedList implements Iterable<Integer> {
+    private LNode start, end;
+    private int size;
 
     private class LNode {
 	int value;
-	 LNode next, prev;
-	 
-	public LNode(int value){
-      this.value=value;
-    }
-    
-    public String toString(){
-      return value+"";
-    }
-	
-	public LNode(int val, LNode node){
-	    value = val;
+	LNode next, prev;
+
+	public LNode(int n) {
+	    value = n;
+	}
+
+	public LNode(int n, LNode node) {
+	    value = n;
 	    next = node;
 	}
-    }
-    
-  LNode head,tail;
-  int size;
 
-    public MyLinkedList(){
-	size = 0;
-    }
-
- ////////////////////////////////////////////////////////////////////////   
-    
-	public int size(){
-    return size;
-    }
-/*
- ////////////////////////////////////////////////////////////////////////   
-
-    private LNode getNthNode(int n){
-    	
-    
-    }
-
-////////////////////////////////////////////////////////////////////////   
-  
-      private void addAfter(LNode location, LNode toBeAdded){
-
-
-      }
-
-////////////////////////////////////////////////////////////////////////   
-
-  private void remove(LNode target){
-  if(not a special case):
-		x.next.prev = x.prev
-		x.prev.next = x.nexts
-  }
-*/
- ////////////////////////////////////////////////////////////////////////   
-    
-    public String toString(){
-	if (size == 0){
-	    return "[]";
+	public String toString() {
+	    return value + "";
 	}
-	String i = "[";
-	LNode current = head;
-	while(current.next != null){
-	    i += current.value + ", ";
+    }
+
+    public MyLinkedList() {
+    }
+
+    public int size() {
+	return size;
+    }
+
+    private LNode getNthNode(int n) {
+	LNode current = start;
+	int counter = 0;
+	while (counter < n) {
 	    current = current.next;
+	    counter++;
 	}
-	i += (current.value + "]");
-	return i;
+	return current;
     }
-    
- ////////////////////////////////////////////////////////////////////////   
-    
-    
-    public int get(int index){
-	if (index < 0 || index >= size()){
-	    throw new IndexOutOfBoundsException();
-	}
-	
-	LNode current = head;
-	for (int i = 0; i < size; i ++){
-	    if (i == index){
-		return current.value;
-	    }
-	    else
-		current = current.next;
-	}
-	return -1;
-    }
- 
- ////////////////////////////////////////////////////////////////////////   
-   
-    public int set(int index, int newValue){
-	if(index < 0 || index >= size()){
-	    throw new IndexOutOfBoundsException();
-	}
-	    
-	LNode current = head;
-	int oVal = get(index);
-	for (int i = 0; i < index + 1; i ++){
-	    if (i == index){
-		current.value = newValue;
-	    }
-	    else{
-		current = current.next;
-	    }
-	}
-	return oVal;
-    }
-    
- ////////////////////////////////////////////////////////////////////////   
 
-    public boolean add(int value){ 
-	add(size(),value);
+    private boolean addAfter(LNode location, LNode toBeAdded) {
+	if (location.next == null) {
+	    end = toBeAdded;
+	}
+	location.next = toBeAdded;
+	toBeAdded.prev = location;
+	size++;
 	return true;
     }
     
- ////////////////////////////////////////////////////////////////////////   
-    
-    public int indexOf(int value){
-	LNode current = head;
-	int i= 0;
-	while(current != null){
-	    if (current.value == value){
-		return i;
+    private void remove(LNode target) {
+	//LNode current = start;
+	if (target.prev == null || target.next == null) {
+	    if (size == 1) {
+		start = null;
+		end = null;
+		size--;
 	    }
-	    else{
+	    else if (target.prev == null) {
+		start = target.next;
+		target.next.prev = null;
+		size--;
+	    }
+	    else { //target.next == null
+		end = target.prev;
+		target.prev.next = null;
+		size--;
+	    }
+	}
+	else {
+	    target.prev.next = target.next;
+	    target.next.prev = target.prev;
+	    size--;
+	}
+    }
+    
+    public String toString() {
+	LNode current = start;
+	String ans = "[";
+	for (int n = 0;n < size;n++) {
+	    if (current == null) return "Error";
+	    if (n == size-1) return ans += current.value + "]"; 
+	    else {
+		ans += current.value + ", ";
 		current = current.next;
-		i++;
 	    }
 	}
-	return -1;
-    }
-    
-  ////////////////////////////////////////////////////////////////////////    
-    
-    public int remove(int index){
-	int val = get(index);
-    	LNode current = head;
-    	if(index < 0 || index >= size()){
-    	    throw new IndexOutOfBoundsException();
-    	}
-
-	else if(size() == 1){
-	    head = null;
-	    tail = null;
-	}
-
-        else if (index == size()-1){
-    	    for (int i = 0; i < size(); i ++){
-    		if (i == index - 1){
-    		    current.next = null;
-    		    tail = current;
-		    break;
-    		}
-    		current = current.next;
-    	    }
-    	}
-
-    	else if (index == 0){
-    	    head = head.next;
-    	}
-
-    	else{
-    	    LNode node = head;
-	    int i = 0;
-	    while (node.next != null){
-		if (i == index-1){
-		    node.next = node.next.next;
-		    break;
-		}
-		else node = node.next;
-		i ++;
-	    }
-	}
-	size --;
-	return val;
-    }
-    
- ////////////////////////////////////////////////////////////////////////   
-    
-    public void add(int index, int value){
-	LNode current = head;
-	if(index < 0 || index > size()){
-	    throw new IndexOutOfBoundsException();
-	}
-        if (index == size()){
-	    tail = new LNode(value, tail);
-	    }
-	
-	if (index == 0){
-	    head = new LNode(value, head);
-	}
-	else{
-	    LNode node = head;
-	    int i = 0;
-	    while (node != null){
-		if (i == index-1){
-		    LNode temp = node.next;
-		    node.next = new LNode(value);
-		    node.next.next = temp;
-		}
-		else node = node.next;
-		i ++;
-	    }
-	}
-	size ++;
+	return ans;
     }
 
 
+    public boolean add(int value) {
+	LNode current = start;
+	LNode newNode = new LNode(value);
+	if (current == null) {
+	    start = newNode;
+	    end = newNode;
+	}
+	else {
+	    while(current.next != null) current = current.next;
+	    current.next = newNode;
+	    newNode.prev = current;
+	    end = newNode;
+	}
+	size++;
+	return true;
+    }
 
- ////////////////////////////////////////////////////////////////////////   
+    public int get(int index) {
+	LNode current = start;
+	int counter = 0;
+	while (counter < index) {
+	    current = current.next;
+	    counter++;
+	}
+	return current.value;
+    }
+
+    public int set(int index, int newValue) {
+	LNode current = start;
+	int counter = 0;
+	while (counter < index) {
+	    current = current.next;
+	    counter++;
+	}
+	int temp = current.value;
+	current.value = newValue;
+	return temp;
+    }
+
+  public int indexOf(int value){
+    if(size == 0){
+      return -1;
+    }
+    LNode current = start;
+    for(int i = 0; i < size; i++){
+      if(current.value == value){
+        return i;
+      }
+      current = current.next;
+    }
+    return -1;
+  }
+
+
+    public int remove(int index) {
+	LNode toBeRemoved = getNthNode(index);
+	int removed = toBeRemoved.value;
+	remove(toBeRemoved);
+	return removed;
+    }
+
+    public void add(int index, int value){//doubly linked
+    	if (index>size || index<0){throw new IllegalArgumentException();}
+	LNode tempVal=new LNode(value);
+	if (index==0){
+	    if (size==0){
+		start=tempVal;
+		end=tempVal;
+	    }else{
+		start.prev=tempVal;
+		tempVal.next=start;
+		start=tempVal;
+	    }
+	}else if(index==size){
+	    end.next=tempVal;
+	    tempVal.prev=end;
+	    end=tempVal;
+	}else{
+	    tempVal.prev=getNthNode(index-1);
+	    tempVal.next=getNthNode(index);
+	    getNthNode(index).prev=tempVal;
+	    getNthNode(index-1).next=tempVal;
+	}
+	size++;
+    }
+
+    public Iterator<Integer> iterator() {
+	return new LinkedListIterator(this);
+    }
+
+    public class LinkedListIterator implements Iterator<Integer> {
+	private int element;
+	private MyLinkedList LList;
+
+	public LinkedListIterator(MyLinkedList list) {
+	    LList = list;
+	    element = 0;
+	}
+
+	public Integer next() {
+	    if (hasNext()) {
+		int ans = LList.get(element);
+		element++;
+		return ans;
+	    }
+	    else {
+		throw new NoSuchElementException();
+	    }
+	}
+
+	public boolean hasNext() {
+	    return element < LList.size();
+	}
+
+	public void remove() {
+	    throw new UnsupportedOperationException();
+	}
+    }
     
-    public static void main(String[] args){
-    
-    //What works?
-    // I will delete them from this list when they work!
-    // getNthNode 
-    // addAfter 
-    // remove a specific node
-    
-    
-    
-	MyLinkedList x = new MyLinkedList();
-	x.add(1);
-	x.add(2);
-	x.add(3);
-	x.add(4);
-	x.add(1,5);
-	x.add(2,42);
-	System.out.println(x.indexOf(2));
-	
-	System.out.println(x);
-	
-	System.out.println(x);
-	x.set(2, 4);
-		System.out.println(x);
-		x.set(1, 1000000);
-	
-			System.out.println(x.get(1));
-				x.set(4, 999999);
-		
-				System.out.println(x);	
-	
+    public static void main(String[]args) {
+	MyLinkedList a = new MyLinkedList();
+	for (int i = 0;i < 20;i++) {
+	    a.add(i);
+	}
+	System.out.println("The data is:");
+	System.out.println(a);
+	System.out.println();
+
+	System.out.println("Regular Loop:");
+	for (int i = 0;i < a.size();i++) {
+	    System.out.print(a.get(i) + " ");
+	}
+	System.out.println();
+
+	System.out.println("Iterable Loop:");
+	for (Integer i : a) {
+	    System.out.print(i + " ");
+	}
+	System.out.println();
     }
 }
