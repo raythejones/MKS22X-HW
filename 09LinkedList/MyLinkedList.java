@@ -50,7 +50,6 @@ public class MyLinkedList implements Iterable<Integer> {
     }
     
     private void remove(LNode target) {
-	//LNode current = start;
 	if (target.prev == null || target.next == null) {
 	    if (size == 1) {
 		start = null;
@@ -210,24 +209,6 @@ public class MyLinkedList implements Iterable<Integer> {
     }
     
     public static void main(String[]args) {
-	MyLinkedList a = new MyLinkedList();
-	for (int i = 0;i < 20;i++) {
-	    a.add(i);
-	}
-	System.out.println("The data is:");
-	System.out.println(a);
-	System.out.println();
 
-	System.out.println("Regular Loop:");
-	for (int i = 0;i < a.size();i++) {
-	    System.out.print(a.get(i) + " ");
-	}
-	System.out.println();
-
-	System.out.println("Iterable Loop:");
-	for (Integer i : a) {
-	    System.out.print(i + " ");
-	}
-	System.out.println();
     }
 }
