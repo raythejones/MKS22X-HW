@@ -5,9 +5,18 @@ public class Location implements Comparable<Location>{
  private int distToGoal;
  private int distToStart; 
  private Location previous; //(used to trace the solution)
- private boolean aStar; // : when this is true, compareTo will use: distToStart + distToGoal
-                           //          when this is false, compareTo will use the distToGoalonly.
- 
+ private boolean aStar; // when true, compareTo is distToStart + distToGoal
+                           //          when false, compareTo is distToGoal.
+
+
+    public Location(int r, int c, Location prev, int distStart, int distEnd) {
+	row = r;
+	col = c;
+	previous = prev;
+	distToGoal = distEnd;
+	distToStart = distStart;
+    }
+     
  public Location(int r, int c, Location previous , int distToStart, int distToGoal, boolean aStar){
 row = r;
 col = c;
@@ -16,7 +25,8 @@ col = c;
  this.previous = previous; 
  this.aStar = aStar;
  }
-                                    
+        
+                                   
    public int getRow(){
 	return row;
     }
@@ -37,6 +47,11 @@ col = c;
 	return previous;
     }
 
+    
+	public boolean getStar() {
+	return aStar;
+    }
+    
     public int compareTo(Location other){
 	if(aStar){
 	    return (getDistToGoal() + getDistToStart()) - (other.getDistToGoal() + other.getDistToStart());
