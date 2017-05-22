@@ -77,14 +77,7 @@ public class MazeSolver {
 	    int distToStart = 0;
 	    int distToGoal = 0;
 	    while (q.getSize() > 0) {
-	    
-// delay for testing
-    try {
-        System.out.println("Solving...");
-        Thread.sleep(25); 
-    } catch (InterruptedException ex) {
-        // handle error
-    }		
+	
     	    
 	    
 		Location temp = q.next();
@@ -135,20 +128,12 @@ public class MazeSolver {
 	    int distToStart = 0;
 	    int distToGoal = 0;
 	    while (q.getSize() > 0) {
-	    
-// delay for testing
-    try {
-        System.out.println("Solving...");
-        Thread.sleep(25); 
-    } catch (InterruptedException ex) {
-        // handle error
-    }		
-    
+
     
     Location temp = q.next();
 		if(howFar(temp.getRow(), temp.getCol(), maze.getEnd()) == 0){
 		    maze.set(temp.getRow(), temp.getCol(), 'E');
-		    System.out.println(this);
+		    System.out.println( maze.toString(100));		    
 		    return;
 		}
 		try{
@@ -184,7 +169,7 @@ public class MazeSolver {
 		    }
 		}catch (IndexOutOfBoundsException e){}
 		maze.set(temp.getRow(), temp.getCol(), '.');
-		System.out.println(this);
+		System.out.println(maze.toString(100));
 	    }  	
 	}
 	if (i == 2) { //BestFirst
@@ -295,7 +280,7 @@ public class MazeSolver {
     
     public static void main(String[]args){
     MazeSolver m = new MazeSolver("data3.txt");
-m.solve(0);
+m.solve(1);
     }
 
 }
