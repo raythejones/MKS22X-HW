@@ -171,6 +171,7 @@ return best;
 
     MazeSolver m = new MazeSolver(args[0]);
 m.solve(Integer.parseInt(args[1]));
+ 
     }
 
 }

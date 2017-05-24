@@ -27,6 +27,19 @@ queue.set(1, queue.get(size));
 
     private void pushUp(int index) {
 	Location temp;
+	
+	if (queue.get(index).getStar() == true){
+	if (index / 2 > 0 && 
+	    queue.get(index).getPrevious().getDistToGoal() > queue.get(index).getDistToGoal()) {
+	    temp = queue.get(index / 2);
+	    queue.set(index / 2, queue.get(index));
+	    queue.set(index, temp);
+	    pushUp(index / 2);
+	}	
+	}
+	
+	else{
+	
 	if (index / 2 > 0 && 
 	    queue.get(index / 2).getDistToGoal() > queue.get(index).getDistToGoal()) {
 	    temp = queue.get(index / 2);
@@ -34,7 +47,7 @@ queue.set(1, queue.get(size));
 	    queue.set(index, temp);
 	    pushUp(index / 2);
 	}
-    }
+    }}
 
     public int getSize() {
 	return size;
@@ -59,7 +72,7 @@ queue.set(1, queue.get(size));
         Location temp;
 	int whichToSwitch = checkChildren(index);
 	if (whichToSwitch != -1 &&
-	    queue.get(whichToSwitch).getDistToGoal() < queue.get(index).getDistToGoal()) {
+	    queue.get(whichToSwitch).getPrevious().getDistToGoal() < queue.get(index).getDistToGoal()) {
 	    temp = queue.get(whichToSwitch);
 	    queue.set(whichToSwitch, queue.get(index));
 	    queue.set(index, temp);
